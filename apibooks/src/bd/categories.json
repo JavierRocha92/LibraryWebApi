@@ -1,0 +1,99 @@
+{
+  "categories": [
+    {
+      "id": 677,
+      "name": "Ajedrez",
+      "nicename": "ajedrez"
+    },
+    {
+      "id": 2007,
+      "name": "Arte - Bellas Artes",
+      "nicename": "arte-bellas-artes"
+    },
+    {
+      "id": 206,
+      "name": "Ciencia",
+      "nicename": "ciencia"
+    },
+    {
+      "id": 1188,
+      "name": "Cine",
+      "nicename": "cine"
+    },
+    {
+      "id": 717,
+      "name": "Cómics",
+      "nicename": "comics"
+    },
+    {
+      "id": 1441,
+      "name": "Educación",
+      "nicename": "educacion"
+    },
+    {
+      "id": 2354,
+      "name": "Electrónica",
+      "nicename": "electronica"
+    },
+    {
+      "id": 2204,
+      "name": "Filosofía",
+      "nicename": "filosofia"
+    },
+    {
+      "id": 1941,
+      "name": "Geografía / Turismo",
+      "nicename": "geografia-turismo"
+    },
+    {
+      "id": 2802,
+      "name": "Historia",
+      "nicename": "historia"
+    },
+    {
+      "id": 1149,
+      "name": "Idiomas",
+      "nicename": "idiomas"
+    },
+    {
+      "id": 640,
+      "name": "Información",
+      "nicename": "informacion"
+    },
+    {
+      "id": 1805,
+      "name": "Multimedia",
+      "nicename": "multimedia"
+    },
+    {
+      "id": 1904,
+      "name": "Música",
+      "nicename": "musica"
+    },
+    {
+      "id": 1859,
+      "name": "Retroinformática",
+      "nicename": "retroinformatica"
+    },
+    {
+      "id": 596,
+      "name": "Revistas",
+      "nicename": "revistas"
+    },
+    {
+      "id": 1295,
+      "name": "Robótica",
+      "nicename": "robotica"
+    },
+    {
+      "id": 907,
+      "name": "Software General",
+      "nicename": "software-general"
+    },
+    {
+      "id": 501,
+      "name": "Textos Académicos",
+      "nicename": "textos-academicos"
+    }
+  ]
+}

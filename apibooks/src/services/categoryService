@@ -1,0 +1,9 @@
+const db = require("../bd/categories.json");
+
+const getAllCategories = () => {
+  return db.categories;
+};
+
+module.exports = {
+  getAllCategories,
+};
