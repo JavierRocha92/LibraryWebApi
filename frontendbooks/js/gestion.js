@@ -1,4 +1,11 @@
-import Book from "./books.js";
+import Book from "./Book.js";
+import Category from "./Category.js";
+import BookCategory from "./BookCategory.js";
+import Downloader from "./Downloader.js";
+import Shower from "./Shower.js";
+
+//Consultas
+const consultas = document.getElementById("consultas");
 
 // Select categorias
 const select_categories = document.getElementById("select_categories");
@@ -26,96 +33,15 @@ const modal_input_content = document.getElementById("modal_input_content");
 let userActions = []
 let allbooks = [];
 let allcategories = [];
-let allauthors = [];
+let allbookscategory = []
+let allauthorsnames = []
+let allcategoriesnames = []
 
-// Crear un libro
-const createCardBook = (book) => {
-  let card = document.createElement("ARTICLE");
-  card.classList.add("book");
+//Objets
 
-  // img
-  let img = document.createElement("IMG");
-  img.classList.add("book__img");
-  img.src = book._cover;
-  card.appendChild(img);
+const downloader = new Downloader()
+const shower = new Shower()
 
-  // section
-  let section = document.createElement("SECTION");
-  section.classList.add("book__textos");
-  card.appendChild(section);
-
-  // span ttítulo
-  let span = document.createElement("SPAN");
-  span.classList.add("book__texto");
-  span.textContent = "Título: ";
-  section.appendChild(span);
-
-  // span
-  span = document.createElement("SPAN");
-  span.textContent = book._title;
-  section.appendChild(span);
-
-  //br
-  let br = document.createElement("BR");
-  section.appendChild(br);
-
-  // span autor
-  span = document.createElement("SPAN");
-  span.classList.add("book__texto");
-  span.textContent = "Autor: ";
-  section.appendChild(span);
-
-  //span
-  span = document.createElement("SPAN");
-  span.textContent = book._author;
-  section.appendChild(span);
-
-  //br
-  br = document.createElement("BR");
-  section.appendChild(br);
-
-  // span autor
-  span = document.createElement("SPAN");
-  span.classList.add("book__texto");
-  span.textContent = "Categoría: ";
-  section.appendChild(span);
-
-  //span
-  span = document.createElement("SPAN");
-  span.textContent = book._category;
-  section.appendChild(span);
-
-  //br
-  br = document.createElement("BR");
-  section.appendChild(br);
-
-  span = document.createElement("SPAN");
-  span.classList.add("book__texto");
-  span.textContent = "Descripción: ";
-  section.appendChild(span);
-  //br
-  br = document.createElement("BR");
-  section.appendChild(br);
-
-  // section
-  let sectioncontent = document.createElement("SECTION");
-  section.classList.add("book__textos");
-  card.appendChild(sectioncontent);
-
-  // span content
-  span = document.createElement("SPAN");
-  span.textContent = book._content;
-  section.appendChild(span);
-
-  //button
-  let button = document.createElement("BUTTON");
-  button.classList.add("book__btnborrar");
-  button.id = book._id;
-  button.textContent = "Eliminar";
-  section.appendChild(button);
-
-  return card;
-};
 
 const setLogLocalStorage = (action, path, method) => {
   let date = new Date();
@@ -144,3 +70,159 @@ const setLogLocalStorage = (action, path, method) => {
   userActions.push(info)
   localStorage.setItem(JSON.stringify('userActions',userActions))
 };
+
+//Function about load element on screen
+
+const loadSelect = (select, array) => {
+  let option
+  const fragment = document.createDocumentFragment()
+  if(select == select_categories || select == modal_select_category){
+    array.forEach(element => {
+      option = document.createElement('OPTION')
+      option.name = element.name
+      option.label = element.name
+      option.value = element.name
+      allcategoriesnames.push(element.name)
+      fragment.append(option)
+    });
+  }
+  if(select == select_authors){
+    array.forEach(element => {
+      option = document.createElement('OPTION')
+      option.name = element
+      option.label = element
+      option.value = element
+      allauthorsnames.push(element)
+      fragment.append(option)
+    });
+  }
+  select.appendChild(fragment)
+}
+
+const loadSelects = async () => {
+  loadSelect(select_categories, await downloader.getCategories())
+  loadSelect(modal_select_category, await downloader.getCategories())
+  loadSelect(select_authors, await downloader.getAuthors())
+}
+
+const getBooksCateroies = async () => {
+  let catdef = new Category(
+      '0000',
+      'Base de Datos',
+      'base-de-datos')
+  allbooks.forEach(book => {
+      let category
+
+      allcategories.forEach(element => {
+          if (element.nicename == book.category)
+              category = element
+      });
+      category = category == undefined ? catdef : category
+      allbookscategory.push(
+          new BookCategory(
+              book,
+              category
+          )
+      )
+
+  })
+  return allbookscategory
+}
+
+const getData = async () => {
+  allbooks = await downloader.getBooks()
+  allcategories = await downloader.getCategories()
+  allbookscategory = await getBooksCateroies()
+  shower.showBooks(allbooks, books)
+}
+
+const loadPage = async () => {
+  loadSelects()
+  getData()
+}
+
+//Fucnitons about queries
+
+const getCategoryNiceName = (value) => {
+  let nicename
+  allcategories.forEach(category => {
+    if(category.name == value){
+      nicename = category.nicename
+    }
+  });
+
+  return nicename
+}
+
+const handleSelectQuery = async (event) => {
+  const e = event.target
+  console.log(e.value)
+  if(e == select_authors){
+    const author = e.value
+    shower.showBooks(await downloader.getBooksByAuthor(author), books)
+  }
+  if(e == select_categories){
+    const category = getCategoryNiceName(e.value)
+    shower.showBooks(await downloader.getBooksByCategory(category), books)
+  }
+  
+}
+
+const catchElementOnDelete = (event) => {
+  const e = event.target
+
+  if(e.classList.contains('book__btnborrar')){
+    downloader.deleteBook(e.id)
+  }
+} 
+
+const getFormInfo = () => {
+  const data = []
+  data.push(modal_input_title, modal_input_author, modal_select_category, modal_input_content)
+  return data
+
+}
+
+const handleFormAction = (event) => {
+  const e = event.target
+  if(e == btn_modal_aniadir){
+    downloader.insertBook(getFormInfo())
+  }
+  if(e == btn_modal_cancelar){
+    modal_container.classList.add('hide-modal')
+    // modal_container.classList.remove('show-modal')
+  }
+}
+
+
+//EVENTS
+//Event when the page is loaded
+
+document.addEventListener('DOMContentLoaded', loadPage)
+
+//Event to catch when cosnutlas selects was changed
+
+consultas.addEventListener('change', handleSelectQuery)
+
+//Event when all button query is pressed
+
+btn_allbooks.addEventListener('click', async () => {
+  allbooks = await downloader.getBooks()
+  shower.showBooks(allbooks, books)
+})
+
+//Event when an element into books element is pressed
+
+books.addEventListener('click', catchElementOnDelete)
+
+//Event when create book button is pressed
+
+btn_newbook,addEventListener('click', () => {
+  // modal_container.classList.remove('hide-modal')
+  modal_container.classList.add('show-modal')
+})
+
+//Event to catch when form to create new book is submit
+
+modal_container.addEventListener('click', handleFormAction)
+

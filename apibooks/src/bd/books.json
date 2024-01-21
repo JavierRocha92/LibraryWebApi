@@ -1,67 +1,76 @@
 {
   "books": [
     {
-      "id": 16705,
-      "title": "las mandanrinas tambine lloran",
-      "author": "javier rocha",
-      "category": "Idiomas",
-      "content": "ggggggggggggggggggggggggggg",
-      "cover": "...",
-      "url_download": "..."
+      "id": "a5fdc81a-8efa-4568-a282-c85e8dbdcc9d",
+      "title": {},
+      "author": {},
+      "category": {
+        "0": {
+          "name": "Ajedrez"
+        },
+        "1": {
+          "name": "Arte - Bellas Artes"
+        },
+        "2": {
+          "name": "Ciencia"
+        },
+        "3": {
+          "name": "Cine"
+        },
+        "4": {
+          "name": "Cómics"
+        },
+        "5": {
+          "name": "Educación"
+        },
+        "6": {
+          "name": "Electrónica"
+        },
+        "7": {
+          "name": "Filosofía"
+        },
+        "8": {
+          "name": "Geografía / Turismo"
+        },
+        "9": {
+          "name": "Historia"
+        },
+        "10": {
+          "name": "Idiomas"
+        },
+        "11": {
+          "name": "Información"
+        },
+        "12": {
+          "name": "Multimedia"
+        },
+        "13": {
+          "name": "Música"
+        },
+        "14": {
+          "name": "Retroinformática"
+        },
+        "15": {
+          "name": "Revistas"
+        },
+        "16": {
+          "name": "Robótica"
+        },
+        "17": {
+          "name": "Software General"
+        },
+        "18": {
+          "name": "Textos Académicos"
+        }
+      },
+      "descripcion": {}
     },
     {
-      "id": [],
-      "title": "titulo",
-      "author": "titulo",
-      "category": "Idiomas",
-      "conent": "es el mehor kibro del mundo",
-      "cover": "...",
-      "url_download": "..."
-    },
-    {
-      "id": [],
-      "title": "titulo",
-      "author": "titulo",
-      "category": "Historia",
-      "conent": "es un libro muy chulo y bonito",
-      "cover": "...",
-      "url_download": "..."
-    },
-    {
-      "id": "16836",
-      "title": "Microsoft SQL Server Notes for Professionals",
-      "author": "Varios",
-      "category": "bases_de_datos",
-      "content": "This Microsoft SQL Server Notes for Professionals book is compiled from Stack Overflow Documentation, the content is written by the beautiful people at Stack Overflow. Text content is released under Creative Commons BY-SA, see credits at the end of this book whom contributed to the various chapt",
-      "cover": "https://olcovers2.blob.core.windows.net/coverswp/2018/05/MicrosoftSQLServerNotesForProfessionals-OpenLibra-326x461.png",
-      "url_download": "https://openlibra.com/book/microsoft-sql-server-notes-for-professionals"
-    },
-    {
-      "id": "16832",
-      "title": "MongoDB Notes for Professionals",
-      "author": "Varios",
-      "category": "bases_de_datos",
-      "content": "This MongoDB Notes for Professionals book is compiled from Stack Overflow Documentation, the content is written by the beautiful people at Stack Overflow.Text content is released under Creative Commons BY-SA, see credits at the end of this book whom contributed to the various chapters. Images ma",
-      "cover": "https://olcovers2.blob.core.windows.net/coverswp/2018/05/MongoDBNotesForProfessionals-OpenLibra-326x461.png",
-      "url_download": "https://openlibra.com/book/mongodb-notes-for-professionals"
-    },
-    {
-      "id": "16812",
-      "title": "MySQL Notes for Professionals",
-      "author": "Varios",
-      "category": "bases_de_datos",
-      "content": "This MySQL Notes for Professionals book is compiled from Stack Overflow Documentation, the content is written by the beautiful people at Stack Overflow.Text content is released under Creative Commons BY-SA, see credits at the end of this book whom contributed to the various chapters. Images may ",
-      "cover": "https://olcovers2.blob.core.windows.net/coverswp/2018/05/MySQLNotesForProfessionals-OpenLibra-326x461.png",
-      "url_download": "https://openlibra.com/book/mysql-notes-for-professionals"
-    },
-    {
-      "id": "16734",
-      "title": "PostgreSQL Database Administration Volume 1",
-      "author": "Federico Campoli",
-      "category": "bases_de_datos",
-      "content": "When I first came up with the idea to write a PostgreSQL DBA book, my intention was to publish it commercially.Shortly I changed my mind as I became aware the uniqueness of a book for the database administrators. Then I decided to keep this book free. The same will happen for the next books in t",
-      "cover": "https://olcovers2.blob.core.windows.net/coverswp/2018/04/PostgreSQL-Database-Administration-Vol-1-OpenLibra-350x459.gif",
-      "url_download": "https://openlibra.com/book/postgresql-database-administration-volume-1"
+      "id": "3749b106-dcba-4aff-a3b6-da3fed06e8ce",
+      "title": "Ahora tengo otro titulo",
+      "texto": "El patio de mi casa es particular",
+      "paginas": 234,
+      "userId": 1
     },
     {
       "id": "16693",
