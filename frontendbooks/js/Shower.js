@@ -1,3 +1,6 @@
+//Import
+import functions from './functions.js'
+
 class Shower {
   constructor() {
 
@@ -91,6 +94,42 @@ class Shower {
     return card;
   };
 
+  createLogRow(action) {
+    console.log(action.method)
+    const tr = functions.createElement('TR', [])
+
+    const puser = functions.createElement('P',[], action.username)
+    const tduser = functions.createElement('TD')
+    tduser.appendChild(puser)
+
+    const pmethod = functions.createElement('P',[], action.method)
+    const tdmethod = functions.createElement('TD')
+    tdmethod.appendChild(pmethod)
+
+    let ppath
+
+    if(action.method == 'GET'){
+      console.log('entro')
+      ppath = functions.createElement('A',[], action.path, false, false, action.path)
+
+    }else{
+      ppath = functions.createElement('P',[], action.path)
+
+    }
+
+    const tdpath = functions.createElement('TD')
+    tdpath.appendChild(ppath)
+
+    const pdate = functions.createElement('P',[], action.formateddate)
+    const tddate = functions.createElement('TD')
+    tddate.appendChild(pdate)
+  
+    tr.appendChild(tduser)
+    tr.appendChild(tdmethod)
+    tr.appendChild(tdpath)
+    tr.appendChild(tddate)
+    return tr
+}
 
   convertIntoRow(categorybook) {
     const tr = document.createElement('TR')
@@ -128,6 +167,14 @@ class Shower {
     const fragment = document.createDocumentFragment()
     allbookscategory.forEach(element => {
       fragment.appendChild(this.convertIntoRow(element))
+    });
+    parent.appendChild(fragment)
+  }
+
+  showLogs(useractions, parent){
+    const fragment = document.createDocumentFragment()
+    useractions.forEach(action => {
+      fragment.appendChild(this.createLogRow(action))
     });
     parent.appendChild(fragment)
   }

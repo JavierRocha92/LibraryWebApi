@@ -1,10 +1,13 @@
 import Category from "./Category.js";
 import Book from "./Book.js";
 import BooksCategory from "./BookCategory.js";
+import LogUser from "./LogUser.js";
+
+
 
 class Downloader {
     constructor() {
-
+        this._logger = new LogUser(localStorage.getItem('user_email'))
     }
 
     getArrayBookObjects(json) {
@@ -50,31 +53,101 @@ class Downloader {
     }
 
     getBooks = async () => {
-        const response = await fetch('http://localhost:3000/api/v1/books/')
-        const json = await response.json()
-        return await this.jsonAsObjectArray(json, 'book')
+        try {
+            const response = await fetch('http://localhost:3000/api/v1/books/')
+            if (!response.ok) {
+                throw new Error(`Error al obtener datos. Código de estado: ${response.status}`);
+            }
+            this._logger.setLogLocalStorage(
+                'GET',
+                `http://localhost:3000/api/v1/books/`)
+            const json = await response.json()
+            return await this.jsonAsObjectArray(json, 'book')
+        } catch (error) {
+            console.error('Error en la solicitud:', error.message);
+            throw error; // Puedes elegir lanzar el error nuevamente o manejarlo de alguna otra manera.
+
+        }
+
     }
     getCategories = async () => {
-        const response = await fetch('http://localhost:3000/api/v1/categories/')
-        const json = await response.json()
-        return await this.jsonAsObjectArray(json, 'category')
+        try {
+            const response = await fetch('http://localhost:3000/api/v1/categories/')
+            if (!response.ok) {
+                throw new Error(`Error al obtener datos. Código de estado: ${response.status}`);
+            }
+            this._logger.setLogLocalStorage(
+                'GET',
+                `http://localhost:3000/api/v1/categories/`)
+            const json = await response.json()
+            return await this.jsonAsObjectArray(json, 'category')
+        } catch (error) {
+
+            console.error('Error en la solicitud:', error.message);
+            throw error; // Puedes elegir lanzar el error nuevamente o manejarlo de alguna otra manera.
+        }
+
     }
 
+
     getAuthors = async () => {
-        const response = await fetch('http://localhost:3000/api/v1/authors/')
-        const json = await response.json()
-        return json
+        try {
+            const response = await fetch('http://localhost:3000/api/v1/authors/');
+
+            if (!response.ok) {
+                // Si la respuesta no está en el rango [200, 299], lanza un error
+                throw new Error(`Error al obtener datos. Código de estado: ${response.status}`);
+            }
+            this._logger.setLogLocalStorage(
+                'GET',
+                `http://localhost:3000/api/v1/authors/`)
+            return await response.json();
+        } catch (error) {
+            // Manejo de errores
+            console.error('Error en la solicitud:', error.message);
+            throw error; // Puedes elegir lanzar el error nuevamente o manejarlo de alguna otra manera.
+        }
     }
 
     getBooksByAuthor = async (author) => {
-        const response = await fetch(`http://localhost:3000/api/v1/books/author/${author}`)
-        const json = await response.json()
-        return await this.getArrayBookObjects(json)
+        try {
+            const response = await fetch(`http://localhost:3000/api/v1/books/author/${author}`)
+            if (!response.ok) {
+                // Si la respuesta no está en el rango [200, 299], lanza un error
+                throw new Error(`Error al obtener datos. Código de estado: ${response.status}`);
+
+            }
+            this._logger.setLogLocalStorage(
+                'GET',
+                `http://localhost:3000/api/v1/books/author/${author}`)
+            const json = await response.json()
+            return await this.getArrayBookObjects(json)
+
+        } catch (error) {
+            console.error('Error en la solicitud:', error.message);
+            throw error; // Puedes elegir lanzar el error nuevamente o manejarlo de alguna otra manera.
+
+        }
     }
-    getBooksByCategory = async (categpry) => {
-        const response = await fetch(`http://localhost:3000/api/v1/books/category/${categpry}`)
-        const json = await response.json()
-        return await this.getArrayBookObjects(json)
+    getBooksByCategory = async (category) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/v1/books/category/${category}`)
+            if (!response.ok) {
+
+                // Si la respuesta no está en el rango [200, 299], lanza un error
+                throw new Error(`Error al obtener datos. Código de estado: ${response.status}`);
+            }
+            this._logger.setLogLocalStorage(
+                'GET',
+                `http://localhost:3000/api/v1/books/category/${category}`)
+            const json = await response.json()
+            return await this.getArrayBookObjects(json)
+
+        } catch (error) {
+            console.error('Error en la solicitud:', error.message);
+            throw error; // Puedes elegir lanzar el error nuevamente o manejarlo de alguna otra manera.
+
+        }
     }
 
     deleteBook = async (id) => {
@@ -86,6 +159,9 @@ class Downloader {
                 console.log(response)
                 if (response.status == 200) {
                     console.log("Se ha borrado correctamente")
+                    this._logger.setLogLocalStorage(
+                        'DELETE',
+                        `http://localhost:3000/api/v1/books/${id}`)
                 } else {
                     console.log("No se ha podido realizar el borrado")
                 }
@@ -98,26 +174,29 @@ class Downloader {
             title: data[0],
             author: data[1],
             category: data[2],
-            descripcion: data[3],
-          };
-          
-          fetch("http://localhost:3000/api/v1/books/", 
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-          }) //  Aqui acaba el fetch
+            descripcion: data[3]
+        };
+
+        fetch("http://localhost:3000/api/v1/books/",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            }) //  Aqui acaba el fetch
             .then((response) => {
-              console.log(response.status);
-          
-              return response.json();
+                console.log(response.status);
+
+                return response.json();
             })
             .then((responseJSON) => {
-              console.log("LA INSERCIÓN UTILIZANDO POST SE HA REALIZADO CORRECTAMENTE");
-              console.log(responseJSON);
-              console.log("---------------------------------------------------------");
+                console.log("LA INSERCIÓN UTILIZANDO POST SE HA REALIZADO CORRECTAMENTE");
+                console.log(responseJSON);
+                console.log("---------------------------------------------------------");
+                this._logger.setLogLocalStorage(
+                    'post',
+                    'http://localhost:3000/api/v1/books/')
             })
             .catch((error) => console.log(error));
     }

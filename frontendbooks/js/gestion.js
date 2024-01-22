@@ -43,33 +43,7 @@ const downloader = new Downloader()
 const shower = new Shower()
 
 
-const setLogLocalStorage = (action, path, method) => {
-  let date = new Date();
 
-  let formateddate =
-    ("0" + date.getDate()).slice(-2) +
-    "/" +
-    ("0" + (date.getMonth() + 1)).slice(-2) +
-    "/" +
-    date.getFullYear() +
-    " - " +
-    ("0" + date.getHours()).slice(-2) +
-    ":" +
-    ("0" + date.getMinutes()).slice(-2) +
-    ":" +
-    ("0" + date.getSeconds()).slice(-2);
-
-  let info = {
-    'action': action,
-    'path': path,
-    'method': method,
-    'formateddate': formateddate
-  }
-
-  userActions = JSON.parse(localStorage.getItem('userActions'))
-  userActions.push(info)
-  localStorage.setItem(JSON.stringify('userActions', userActions))
-};
 
 //Function about load element on screen
 
@@ -190,7 +164,9 @@ const getFormInfo = () => {
 const handleFormAction = (event) => {
   const e = event.target
   if (e == btn_modal_aniadir) {
-    downloader.insertBook(getFormInfo())
+    const response = downloader.insertBook(getFormInfo())
+    localStorage.setItem('response', JSON.stringify(response))
+
   }
   if (e == btn_modal_cancelar) {
     modal_container.classList.add('hide-modal')
