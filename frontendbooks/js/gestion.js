@@ -60,15 +60,15 @@ const setLogLocalStorage = (action, path, method) => {
     ("0" + date.getSeconds()).slice(-2);
 
   let info = {
-    'action' : action,
-    'path' : path,
-    'method' : method,
-    'formateddate' : formateddate
+    'action': action,
+    'path': path,
+    'method': method,
+    'formateddate': formateddate
   }
 
   userActions = JSON.parse(localStorage.getItem('userActions'))
   userActions.push(info)
-  localStorage.setItem(JSON.stringify('userActions',userActions))
+  localStorage.setItem(JSON.stringify('userActions', userActions))
 };
 
 //Function about load element on screen
@@ -76,7 +76,7 @@ const setLogLocalStorage = (action, path, method) => {
 const loadSelect = (select, array) => {
   let option
   const fragment = document.createDocumentFragment()
-  if(select == select_categories || select == modal_select_category){
+  if (select == select_categories || select == modal_select_category) {
     array.forEach(element => {
       option = document.createElement('OPTION')
       option.name = element.name
@@ -86,7 +86,7 @@ const loadSelect = (select, array) => {
       fragment.append(option)
     });
   }
-  if(select == select_authors){
+  if (select == select_authors) {
     array.forEach(element => {
       option = document.createElement('OPTION')
       option.name = element
@@ -107,23 +107,23 @@ const loadSelects = async () => {
 
 const getBooksCateroies = async () => {
   let catdef = new Category(
-      '0000',
-      'Base de Datos',
-      'base-de-datos')
+    '0000',
+    'Base de Datos',
+    'base-de-datos')
   allbooks.forEach(book => {
-      let category
+    let category
 
-      allcategories.forEach(element => {
-          if (element.nicename == book.category)
-              category = element
-      });
-      category = category == undefined ? catdef : category
-      allbookscategory.push(
-          new BookCategory(
-              book,
-              category
-          )
+    allcategories.forEach(element => {
+      if (element.nicename == book.category)
+        category = element
+    });
+    category = category == undefined ? catdef : category
+    allbookscategory.push(
+      new BookCategory(
+        book,
+        category
       )
+    )
 
   })
   return allbookscategory
@@ -146,7 +146,7 @@ const loadPage = async () => {
 const getCategoryNiceName = (value) => {
   let nicename
   allcategories.forEach(category => {
-    if(category.name == value){
+    if (category.name == value) {
       nicename = category.nicename
     }
   });
@@ -157,38 +157,42 @@ const getCategoryNiceName = (value) => {
 const handleSelectQuery = async (event) => {
   const e = event.target
   console.log(e.value)
-  if(e == select_authors){
+  if (e == select_authors) {
     const author = e.value
     shower.showBooks(await downloader.getBooksByAuthor(author), books)
   }
-  if(e == select_categories){
+  if (e == select_categories) {
     const category = getCategoryNiceName(e.value)
     shower.showBooks(await downloader.getBooksByCategory(category), books)
   }
-  
+
 }
 
 const catchElementOnDelete = (event) => {
   const e = event.target
 
-  if(e.classList.contains('book__btnborrar')){
+  if (e.classList.contains('book__btnborrar')) {
     downloader.deleteBook(e.id)
   }
-} 
+}
 
 const getFormInfo = () => {
   const data = []
-  data.push(modal_input_title, modal_input_author, modal_select_category, modal_input_content)
+  data.push(
+    modal_input_title.value,
+    modal_input_author.value,
+    modal_select_category.value,
+    modal_input_content.value)
   return data
 
 }
 
 const handleFormAction = (event) => {
   const e = event.target
-  if(e == btn_modal_aniadir){
+  if (e == btn_modal_aniadir) {
     downloader.insertBook(getFormInfo())
   }
-  if(e == btn_modal_cancelar){
+  if (e == btn_modal_cancelar) {
     modal_container.classList.add('hide-modal')
     // modal_container.classList.remove('show-modal')
   }
@@ -217,7 +221,7 @@ books.addEventListener('click', catchElementOnDelete)
 
 //Event when create book button is pressed
 
-btn_newbook,addEventListener('click', () => {
+btn_newbook, addEventListener('click', () => {
   // modal_container.classList.remove('hide-modal')
   modal_container.classList.add('show-modal')
 })
